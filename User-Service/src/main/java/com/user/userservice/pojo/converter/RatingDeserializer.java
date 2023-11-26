@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.user.userservice.pojo.Hotel;
 import com.user.userservice.pojo.Rating;
 
 import java.io.IOException;
@@ -24,6 +25,6 @@ public class RatingDeserializer extends JsonDeserializer<Rating> {
         int rating = jsonNode.get(RATING).asInt();
         String feedback = jsonNode.get(FEEDBACK).asText();
 
-        return new Rating(userId,ratingId,hotelId,rating,feedback);
+        return new Rating(userId,ratingId,hotelId,rating,feedback,new Hotel());
     }
 }

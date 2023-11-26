@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Rating {
-    private long userId;
+public class Hotel {
     private long id;
-    private long hotelId;
-    private int rating;
-    private String feedback;
-    private Hotel hotel;
+    private String name;
+    private String location;
+    private String about;
 }

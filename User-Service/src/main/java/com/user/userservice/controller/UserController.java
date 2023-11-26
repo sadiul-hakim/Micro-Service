@@ -1,6 +1,7 @@
 package com.user.userservice.controller;
 
-import com.user.userservice.model.User;
+import com.user.userservice.model.UserModel;
+import com.user.userservice.pojo.User;
 import com.user.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     @PostMapping("/save")
-    public ResponseEntity<?> saveUser(@RequestBody User user){
+    public ResponseEntity<?> saveUser(@RequestBody UserModel user){
         User savedUser = userService.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }

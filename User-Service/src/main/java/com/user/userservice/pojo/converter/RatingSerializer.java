@@ -18,7 +18,7 @@ public class RatingSerializer extends JsonSerializer<Rating> {
     public void serialize(Rating rating, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
 
-        jsonGenerator.writeNumberField(RATING_ID,rating.getRatingId());
+        jsonGenerator.writeNumberField(RATING_ID,rating.getId());
         jsonGenerator.writeNumberField(USER_ID,rating.getUserId());
         jsonGenerator.writeNumberField(HOTEL_ID,rating.getHotelId());
         jsonGenerator.writeNumberField(RATING,rating.getRating());

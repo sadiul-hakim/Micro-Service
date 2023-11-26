@@ -1,24 +1,51 @@
 package com.user.userservice.service;
 
-import com.user.userservice.model.User;
+import com.user.userservice.client.HotelService;
+import com.user.userservice.client.RatingService;
+import com.user.userservice.model.UserModel;
+import com.user.userservice.pojo.Hotel;
+import com.user.userservice.pojo.Rating;
+import com.user.userservice.pojo.User;
 import com.user.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final ModelMapper mapper;
     private final UserRepository userRepository;
-    public User save(User user){
-        return userRepository.save(user);
+    private final RatingService ratingService;
+    private final HotelService hotelService;
+    public User save(UserModel user){
+        UserModel model = userRepository.save(user);
+        return mapper.map(model, User.class);
     }
     public User getById(long userId){
-        return userRepository.findById(userId)
-                .orElseGet(User::new);
+        UserModel model = userRepository.findById(userId)
+                .orElseGet(UserModel::new);
+
+        // Convert the model into pojo
+        User user = mapper.map(model, User.class);
+
+        // Get all the ratings of the user and set in pojo
+        List<Rating> allRatingsOfUser = ratingService.getAllRatingsOfUser(model.getId());
+        user.setRating(allRatingsOfUser);
+
+        // Get rated hotel and set in rating pojo
+        allRatingsOfUser.forEach(rating -> {
+            Hotel hotel = hotelService.getHotel(rating.getHotelId());
+            rating.setHotel(hotel);
+        });
+
+        return user;
     }
     public List<User> getAll(){
-        return userRepository.findAll();
+        List<UserModel> models = userRepository.findAll();
+        return models.stream().map(item->mapper.map(item,User.class)).toList();
     }
 }
