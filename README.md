@@ -7,3 +7,11 @@
 # Http Client
 
 # API Gateway Service
+
+# Config Server
+
+# Config Client
+
+# Fault Tolerance
+
+# Circuite Breaker
