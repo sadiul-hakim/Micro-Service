@@ -1,7 +1,6 @@
 package com.user.userservice.service;
 
-import com.user.userservice.client.HotelService;
-import com.user.userservice.client.RatingService;
+import com.user.userservice.client.ApiGateway;
 import com.user.userservice.model.UserModel;
 import com.user.userservice.pojo.Hotel;
 import com.user.userservice.pojo.Rating;
@@ -10,7 +9,6 @@ import com.user.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -19,8 +17,7 @@ import java.util.List;
 public class UserService {
     private final ModelMapper mapper;
     private final UserRepository userRepository;
-    private final RatingService ratingService;
-    private final HotelService hotelService;
+    private final ApiGateway apiGateway;
     public User save(UserModel user){
         UserModel model = userRepository.save(user);
         return mapper.map(model, User.class);
@@ -33,12 +30,12 @@ public class UserService {
         User user = mapper.map(model, User.class);
 
         // Get all the ratings of the user and set in pojo
-        List<Rating> allRatingsOfUser = ratingService.getAllRatingsOfUser(model.getId());
+        List<Rating> allRatingsOfUser = apiGateway.getAllRatingsOfUser(model.getId());
         user.setRating(allRatingsOfUser);
 
         // Get rated hotel and set in rating pojo
         allRatingsOfUser.forEach(rating -> {
-            Hotel hotel = hotelService.getHotel(rating.getHotelId());
+            Hotel hotel = apiGateway.getHotel(rating.getHotelId());
             rating.setHotel(hotel);
         });
 

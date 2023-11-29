@@ -8,10 +8,16 @@
 
 # API Gateway Service
 
-# Config Server
+# Config Server - X
 
-# Config Client
+# Config Client - X
 
-# Fault Tolerance
+# Fault Tolerance - X
 
-# Circuite Breaker
+# Reselience4j Circuite Breaker - X
+
+# Reselience4j Retry - X
+
+# Reselience4j Rate Limiter - X
+
+# Security Service
